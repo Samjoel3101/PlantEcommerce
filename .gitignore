@@ -2,3 +2,4 @@ static-local/*
 *node_modules
 *.local
 *.env
+media*

@@ -2,11 +2,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView 
 from rest_framework.response import Response 
 
-from dj_rest_auth.registration.views import SocialLoginView 
+from dj_rest_auth.registration.views import SocialLoginView, RegisterView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter 
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 
-from .serializers import CheckUserSerializer 
+from .serializers import CheckUserSerializer, UserRegisterSerializer, NurseryAdminRegisterSerializer 
 
 class GoogleLoginAPIView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter 
@@ -29,4 +29,8 @@ class CheckUserAPIView(APIView):
     
         return Response(data = {"valid_user": 'false', "errors": serialized_data.errors}, status = 400) 
     
-    
+class UserRegisterAPIView(RegisterView):
+    serializer_class = UserRegisterSerializer
+
+class NurseryAdminRegisterAPIView(RegisterView):
+    serializer_class = NurseryAdminRegisterSerializer
