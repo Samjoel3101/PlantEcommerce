@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Navbar, Nav} from 'react-bootstrap';
 import GoogleLogin from './AuthComponents/GoogleLogin'; 
 import {authContext} from './contexts/AuthContext'; 
 
 function NavBar() {
 	const [isLoggedIn, setIsLoggedIn] = authContext()
+	
 	var components = null 
 	if (isLoggedIn){
 		components = (<Nav.Link href = '/logout'>Logout</Nav.Link>)
@@ -13,7 +14,7 @@ function NavBar() {
 		<div style = {{'display':'flex'}}>
 			<Nav.Link href = '/signup'>SignUp</Nav.Link>
 			<Nav.Link href = '/login'>Login</Nav.Link>
-			<GoogleLogin/>
+			{ process.env.REACT_GOOGLE_CLIENT_ID ? <GoogleLogin/> : null}
 		</div>
 		)
 	}

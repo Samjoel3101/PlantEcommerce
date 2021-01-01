@@ -2,22 +2,26 @@ import React, {useState} from 'react'
 import {cookie} from '../Cookie' 
 
 export async function djangoFetch({urlEndpoint, sendData, urlMethod = 'GET', 
-                            csrf = true, response_function = null}) {
+                            csrf = true, response_function = null, 
+                            contentType = 'application/json', stringify = true}) {
     
     var status_code = null 
     const lookUpOptions = {
         method : urlMethod, 
         headers : {
-            'Content-Type': 'application/json', 
+            'Content-Type': contentType, 
         }, 
     }
-    if (sendData !== null){
+    if (sendData !== null && stringify){
         lookUpOptions.body = JSON.stringify(sendData)
+    }else if (sendData !== null && !stringify) {
+        lookUpOptions.body = sendData
     }
+
     if (csrf){
         lookUpOptions.headers['X-CSRFToken'] = cookie.get('csrftoken')
     }
-
+    
     return await fetch(urlEndpoint, lookUpOptions).then(response => {
         status_code = response.status
         return response.json() 

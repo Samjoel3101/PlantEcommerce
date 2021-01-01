@@ -37,7 +37,7 @@ module.exports = {
     new webpack.DefinePlugin({
     "process.env": {
       NODE_ENV: JSON.stringify('Production'),
-      GOOGLE_CLIENT_ID: JSON.stringify(dotenv.parsed.REACT_APP_GOOGLE_CLIENT_ID)
+      // GOOGLE_CLIENT_ID: JSON.stringify(dotenv.parsed.REACT_APP_GOOGLE_CLIENT_ID)
     },
   }),
   ],

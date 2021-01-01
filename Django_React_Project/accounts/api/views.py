@@ -23,9 +23,15 @@ class CheckUserAPIView(APIView):
             if request.user.is_authenticated:
                 token_obj = serialized_data.validated_data.get('token_obj')
                 token_username = token_obj.user.username 
-            
+
+                user_type = request.user.user_type 
+                if user_type == 'INDIVIDUAL':
+                    user_type = 'user'
+                else:
+                    user_type = 'nursery_admin'
+
                 if request.user.username == token_username:
-                    return Response(data = {"valid_user": 'true'}, status = 200) 
+                    return Response(data = {"valid_user": 'true', 'user_type': user_type}, status = 200) 
     
         return Response(data = {"valid_user": 'false', "errors": serialized_data.errors}, status = 400) 
     

@@ -33,6 +33,7 @@ export  function AuthProvider ({children}) {
                     var result = await djangoFetch({urlEndpoint:checkEndpoint, urlMethod: 'POST', sendData:data, 
                         response_function: (response, status_code) => {
                             if (status_code === 200 && response.valid_user === 'true'){
+                                localStorage.setItem('userType', response.user_type)
                                 return true
                             }
                         }})            

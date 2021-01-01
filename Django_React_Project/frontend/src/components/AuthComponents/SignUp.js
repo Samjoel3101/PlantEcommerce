@@ -7,7 +7,7 @@ import useForm from '../Hooks/useForm';
 import {formGroup} from '../utils/formUtils';
 import {authContext} from '../contexts/AuthContext'; 
 
-function SignUp() {
+function SignUp(props) {
     const [isLoggedIn, setIsLoggedIn] = authContext() 
     const intialFormValues = {username:'', email: '', 
                               password: '', confirmPassword: ''}
@@ -19,14 +19,14 @@ function SignUp() {
     
     const [inputValues, inputChange] = useForm(intialFormValues);
     const [formError, setFormError] = useState(initialErrorValues);
+    const registerEndpoint = props.registerEndpoint; 
 
     const onFormSubmit = (e)=> {
         e.preventDefault();
         const cookies = new Cookies();
         var passwordMismatch = false; 
         const mismatchMessage = 'Passwords do not match';    
-
-        const registerEndpoint = '/api/accounts/register/'; 
+         
         const data = {'username': inputValues.username, 
                       'email': inputValues.email, 
                       'password1': inputValues.password, 

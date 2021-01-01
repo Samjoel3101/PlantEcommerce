@@ -7,8 +7,10 @@ import NavBar from '../NavBar.js';
 function RouteUrl(UrlArray){
     const route_elements = [];
     var id = 1
-    for (var key in UrlArray){
-        route_elements.push(<Route key = {id} exact path = {key} component = {UrlArray[key]}/>);
+    for (var key in UrlArray){    
+        route_elements.push(
+            <Route key = {id} exact path = {key} component = {UrlArray[key]}/>
+            );
         id += 1 
     };
     return route_elements; 
