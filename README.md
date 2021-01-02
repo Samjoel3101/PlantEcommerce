@@ -19,6 +19,7 @@ Commands to run the project:
    cd Django_React_Project
    python manage.py makemigrations 
    python manage.py migrate
+   python manage.py migrate --run-syncdb
    python manage.py runserver localhost:8000
 ```
 Now go to your browser and go to the url localhost:8000 where the project is hosted.  
