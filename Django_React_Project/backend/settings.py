@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sites', 
     
     
-    'frontend', 
+    'frontend',
+     
 
     'src_api', 
     'accounts',

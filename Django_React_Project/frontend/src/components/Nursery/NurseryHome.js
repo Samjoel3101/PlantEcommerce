@@ -4,8 +4,8 @@ import {Card, Button} from 'react-bootstrap'
 
 import {djangoFetch} from '../djangoUtils/djangoFetch' 
 
-export default function homePage() {
-    const dataEndpoint = '/api/nursery/plant/list/'
+export function homePage(props) {
+    const dataEndpoint = props.endpoint
     const [plants, setPlants] = useState(null) 
     
     const userType = localStorage.getItem('userType')
@@ -17,7 +17,7 @@ export default function homePage() {
             </Link>)
         }else {
             return (
-                <Link>
+                <Link to = {`/user/place-order/${plantId}`}>
                     <Button>Buy</Button>
                 </Link>
             )
@@ -41,7 +41,7 @@ export default function homePage() {
     var plantComponents = plants.map((item) => {
         
         return (<Card key = {item.id} style = {{width: '18rem'}}>
-            {console.log(item.image)}
+            
             {item.image === null ? null: <Card.Img variant = 'top' src= {item.image}/>}
             <Card.Body>
                 <Card.Title style = {{display: 'flex'}}>Plant Name: {item.name}</Card.Title>
@@ -55,7 +55,7 @@ export default function homePage() {
  
     return (
         <div>
-            <Link to = '/nursery/plant/add'>Add Plant</Link>  
+            {userType === 'nursery_admin' ? <Link to = '/nursery/plant/add'>Add Plant</Link>: null}
             {plantComponents}          
         </div>
     )
@@ -68,3 +68,5 @@ export default function homePage() {
         )
     }else {return null}
 }
+
+export default () => homePage({endpoint: '/api/nursery/plant/list/'})

@@ -7,6 +7,7 @@ from rest_framework.authtoken.models import Token
 from allauth.account.utils import setup_user_email
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
+from ..models import User 
 from ..adapter import UserTypeDefaultAdapter, NurseryAdminAdapter
 
 class CheckUserSerializer(Serializer): 
@@ -41,3 +42,7 @@ class UserRegisterSerializer(RegisterSerializer):
 class NurseryAdminRegisterSerializer(UserRegisterSerializer):
     adapter = NurseryAdminAdapter
     
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User 
+        fields = ['id', 'username']

@@ -1,14 +1,20 @@
 import React from 'react'
 import {Link} from 'react-router-dom' 
+import {authContext} from '../contexts/AuthContext'
 
 function HomePage() {
     const userType = localStorage.getItem('userType')
     var components = null 
+    const [isLoggedIn, setIsLoggedIn] = authContext() 
 
-    if (userType === 'nursery_admin'){
+    if (isLoggedIn && userType === 'nursery_admin'){
         components = (
             <Link to = '/nursery'>Check Nursery</Link>
         )    
+    }else if (isLoggedIn && userType === 'user'){
+        components = (
+            <Link to = '/user/feed'>Start Buying</Link>
+        )
     }
 
     return (<div>
