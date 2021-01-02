@@ -3,7 +3,7 @@ import {cookie} from '../Cookie'
 
 export async function djangoFetch({urlEndpoint, sendData, urlMethod = 'GET', 
                             csrf = true, response_function = null, 
-                            contentType = 'application/json', stringify = true}) {
+                            contentType = 'application/json', stringify = true, auth = false}) {
     
     var status_code = null 
     const lookUpOptions = {
@@ -16,6 +16,10 @@ export async function djangoFetch({urlEndpoint, sendData, urlMethod = 'GET',
         lookUpOptions.body = JSON.stringify(sendData)
     }else if (sendData !== null && !stringify) {
         lookUpOptions.body = sendData
+    }
+
+    if (auth){
+        lookUpOptions.headers['Authorisation'] = `Bearer ${localStorage.getItem(key)}`
     }
 
     if (csrf){

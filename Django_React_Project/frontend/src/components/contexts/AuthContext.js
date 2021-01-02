@@ -42,15 +42,17 @@ export  function AuthProvider ({children}) {
 
             }
     }else {
-        setLoading(true)
-        djangoFetch({urlEndpoint: '/api/accounts/user-type/', urlMethod: 'GET', sendData: null,
-            response_function: (response, status_code) => {
-                if (status_code === 200){
-                    localStorage.setItem('userType', response.user_type)
-                    setLoading(false)
+        if (validUser){
+            setLoading(true)
+            djangoFetch({urlEndpoint: '/api/accounts/user-type/', urlMethod: 'GET', sendData: null,
+                response_function: (response, status_code) => {
+                    if (status_code === 200){
+                        localStorage.setItem('userType', response.user_type)
+                        setLoading(false)
+                    }
                 }
+            })
             }
-        })
     }
         
     }, [validUser])

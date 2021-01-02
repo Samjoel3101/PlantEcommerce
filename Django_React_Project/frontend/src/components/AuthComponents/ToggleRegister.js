@@ -2,7 +2,7 @@ import React from 'react'
 import {useHistory, Link} from 'react-router-dom' 
 import {Card} from 'react-bootstrap'
 
-const USERTYPES = {'Nursery Admin': '/nursery-admin-signup', 'Individual': '/user-signup'}
+const USERTYPES = {'Sign Up as Nursery Admin': '/nursery-admin-signup', 'Sign up as User': '/user-signup'}
 
 function ToggleRegister() {
     const history = useHistory() 

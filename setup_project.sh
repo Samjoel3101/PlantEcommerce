@@ -5,5 +5,5 @@ npm install
 cd ..
 cd .. 
 pipenv shell
-echo $PWD
+
 
