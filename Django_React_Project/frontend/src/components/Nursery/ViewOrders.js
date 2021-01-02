@@ -28,8 +28,8 @@ export default function ViewOrders() {
                 <Card.Body>
                     <Card.Title>Plant Name: {item.name}</Card.Title>
                     <Card.Text>
-                        <h3>Price: {item.price}</h3>
-                        <h3>Count: {item.order_count}</h3>
+                        Price: {item.price}<br/>
+                        Count: {item.order_count}
                     </Card.Text>
                 </Card.Body>
             </Card>)
