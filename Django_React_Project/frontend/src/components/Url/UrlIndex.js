@@ -19,6 +19,7 @@ UrlComponents['/logout'] = require('../AuthComponents/UserLogout').default;
 UrlComponents['/nursery'] = require('../Nursery/NurseryHome').default; 
 UrlComponents['/nursery/plant/add'] = require('../Nursery/AddPlants').default; 
 UrlComponents['/nursery/plant/edit/:id'] = require('../Nursery/EditPlants').default;
+UrlComponents['/nursery/view-orders'] = require('../Nursery/ViewOrders').default;
 
 // User Routes 
 UrlComponents['/user/feed'] = require('../User/UserHome').default; 

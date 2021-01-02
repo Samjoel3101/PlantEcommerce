@@ -4,15 +4,17 @@ from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView,
 from rest_framework import permissions 
 from rest_framework.parsers import MultiPartParser, FormParser 
 
+
 from .serializers import (PlantCreateSerializer, 
                          PlantDetailSerializer, 
                          AllPlantsDetailSerializer,
                          OrderSerializer, 
                          CartSerializer, 
-                         UserPlantDetailSerializer)
-from .mixins import PlantQuerySetMixin 
+                         UserPlantDetailSerializer, 
+                         NurseryPlantOrderSerializer)
+from .mixins import PlantQuerySetMixin, NoOrderCheckMixin
 from ..models import Nursery, Plant, Order
-from .permissions import IsUser  
+from .permissions import IsUser, IsNurseryAdmin 
 
 
 ################  NURSERY VIEWS ###################
@@ -52,6 +54,27 @@ class PlantRUDAPIView(PlantQuerySetMixin, RetrieveUpdateDestroyAPIView):
         obj = queryset.filter(id = id)
         return obj.first()  
 
+class ViewOrdersAPIView(NoOrderCheckMixin, ListAPIView):
+    serializer_class = NurseryPlantOrderSerializer 
+    permission_classes = [IsNurseryAdmin]
+
+    def get_queryset(self, *args, **kwargs):
+        nursery = self.request.user.nursery_set.first()
+        qs = Order.objects.filter(plant__nursery = nursery)
+        if qs.count() == 0:
+            return qs 
+        else:
+            unique_plant_ids = self._get_unique_ids(qs)
+            qs = [Plant.objects.get(id = id) for id in unique_plant_ids]
+            return qs
+
+    def _get_unique_ids(self, qs):
+        qs_ids = [q.plant.id for q in qs]
+        unique_ids = []
+        for id in qs_ids:
+            if id not in unique_ids:
+                unique_ids.append(id)
+        return unique_ids 
 
 ######################## USER VIEWS #########################
 
@@ -85,16 +108,9 @@ class PlantDetailAPIView(RetrieveAPIView):
         return queryset.filter(id = id).first()
 
 
-class CartAPIView(ListAPIView):
+class CartAPIView(NoOrderCheckMixin, ListAPIView):
     serializer_class = CartSerializer 
     permission_classes = [IsUser]
-
-    def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset() 
-        if queryset.count() == 0:
-            return Response({'detail': 'You have made no orders'}, status = 303)
-        else:
-            return super().get(request, *args, **kwargs) 
 
     def get_queryset(self, *args, **kwargs):
         queryset = Order.objects.filter(user = self.request.user)

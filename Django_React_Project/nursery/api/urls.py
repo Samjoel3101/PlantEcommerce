@@ -3,7 +3,8 @@ from django.urls import path, include
 from .views import (## Nursery Views
                     PlantCreateAPIView, 
                     PlantListAPIView, 
-                    PlantRUDAPIView, 
+                    PlantRUDAPIView,
+                    ViewOrdersAPIView, 
                     ## User Views
                     AllPlantsListAPIView, 
                     PlaceOrderAPIView, 
@@ -17,6 +18,7 @@ urlpatterns = [
         path('list/', PlantListAPIView.as_view(), name = 'plant_list_view'),
         path('detail/<int:id>/', PlantRUDAPIView.as_view(), name = 'plant_rud_view')
         ])),
+    path('nursery/view-orders/', ViewOrdersAPIView.as_view(), name = 'nursery_view_orders'),
 
     ## USER API ROUTES 
     path('user/feed/', AllPlantsListAPIView.as_view(), name = 'user_feed'),

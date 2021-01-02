@@ -4,6 +4,7 @@ from accounts.api.serializers import UserDetailSerializer
 
 from ..models import Nursery, Plant, Order 
 
+## NURSERY SERIALIZERS 
 
 class PlantCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,6 +35,18 @@ class PlantInlineSerializer(serializers.ModelSerializer):
         model = Plant 
         fields = ['id', 'name', 'price']
 
+
+class NurseryPlantOrderSerializer(serializers.ModelSerializer): 
+    order_count = serializers.SerializerMethodField() 
+    class Meta:
+        model = Plant 
+        fields = ['id', 'name', 'price', 'order_count']
+    
+    def get_order_count(self, obj):
+        orders = obj.order_set.all().count()
+        return f'{orders}' 
+
+##### USER SERIALIZERS 
 
 class AllPlantsDetailSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,3 +92,4 @@ class UserPlantDetailSerializer(serializers.ModelSerializer):
             raise ValueError('request is empty')
         qs = qs.filter(user = user)
         return f'{qs.count()}'
+

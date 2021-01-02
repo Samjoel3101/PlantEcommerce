@@ -69,4 +69,12 @@ export function homePage(props) {
     }else {return null}
 }
 
-export default () => homePage({endpoint: '/api/nursery/plant/list/'})
+export default () => {
+    return (
+    <div>
+        <Link to = '/nursery/view-orders'>
+            <Button>View Orders</Button>
+        </Link>
+        {homePage({endpoint: '/api/nursery/plant/list/'})}
+    </div>)
+}
