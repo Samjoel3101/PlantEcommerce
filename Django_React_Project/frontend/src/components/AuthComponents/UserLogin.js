@@ -5,10 +5,11 @@ import {useHistory} from 'react-router-dom'
 import {djangoFetch} from '../djangoUtils/djangoFetch' 
 import {authContext} from '../contexts/AuthContext' 
 import {formGroup, formAlerts} from '../utils/formUtils'
+import {login} from '../utils/authUtils'
 import useForm from '../Hooks/useForm'
 
 export default function UserLogin() {
-    var initialValues = {username: null, password: null}
+    var initialValues = {username: '', password: ''}
     const [value, setValue] = useForm(initialValues)    
     const [error, setError] = useState(null)
     
@@ -24,9 +25,7 @@ export default function UserLogin() {
             if (status_code === 400){
                 setError(Object.values(response))
             }else {
-                console.log(response) 
-                localStorage.setItem('key', response.key)
-                setIsLoggedIn(true)
+                login({key: response.key, setAuthFunc: setIsLoggedIn})
                 history.push('/')            
             }
         }})

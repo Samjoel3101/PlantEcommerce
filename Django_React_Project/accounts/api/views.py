@@ -40,3 +40,19 @@ class UserRegisterAPIView(RegisterView):
 
 class NurseryAdminRegisterAPIView(RegisterView):
     serializer_class = NurseryAdminRegisterSerializer
+
+class CheckUserTypeAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            user_type = request.user.user_type 
+
+            if user_type == 'INDIVIDUAL':
+                user_type = 'user'
+            else:
+                user_type = 'nursery_admin'
+            
+            print(user_type)
+
+            return Response({'user_type': user_type}, status =  200)
+        else:
+            return Response({'detail': 'Permission Denied'}, status = 403)
